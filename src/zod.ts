@@ -1,21 +1,22 @@
 import { z } from "zod";
 
+export const ToParam = z.string().regex(/^[a-zA-Z0-9-]+$/, "Invalid target environment");
 
 export const googleQuerySchema = z.object({
-    to: z.string()
+    to: ToParam
 });
-
-const ToParam = z.string().regex(/^pr-\d+$/, "Invalid PR target")
 
 export const GoogleCallbackSchema = z.object({
     state: z.string().min(1),
     code: z.string().min(1),
-    scope: z.string().min(1).optional(),
-    authUser: z.string().optional(),
+    scope: z.string().optional(),
+    authuser: z.string().optional(),
     prompt: z.string().optional(),
-    to: ToParam.optional()
-})
+});
 
+export const StateSchema = z.object({
+    to: ToParam,
+    nonce: z.string().min(1)
+});
 
 export default googleQuerySchema;
-export { ToParam };
